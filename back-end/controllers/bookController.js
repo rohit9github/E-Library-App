@@ -52,35 +52,23 @@ const deleteBook = async (req, res) => {
 
 // const book = await Book.findById(req.params.id);
 const borrowBook = async (req, res) => {
-    const bookId = req.params.id;
-  
     try {
-      // Find the book by ID
-      const book = await Book.findById(bookId);
+      const book = await Book.findById(req.params.id);
+      if (!book) return res.status(404).json({ msg: 'Book not found' });
+      if (book.isBorrowed) return res.status(400).json({ msg: 'Book is already borrowed' });
   
-      // If the book is not found, return a 404 error
-      if (!book) {
-        return res.status(404).json({ msg: 'Book not found' });
-      }
-  
-      // Check if the book is already borrowed
-      if (book.isBorrowed) {
-          
-        return res.status(400).json({ msg: 'Book is already borrowed' });
-      }
-  
-      // Mark the book as borrowed
       book.isBorrowed = true;
-  
-      // Save the updated book details to the database
+      book.borrowedBy = req.user; // Ensure `req.user` has the correct user ID
       await book.save();
-  
-      // Send a success response
-      res.status(200).json({ msg: 'Book borrowed successfully', book });
-    } catch (error) {
-      console.error('Error in borrowBook controller:', error); // Log the error for debugging
-      res.status(500).json({ msg: 'Server error' });
+      res.json({ msg: 'Book borrowed successfully', book });
+    } catch (err) {
+      console.error(err); // Log the error for debugging
+      res.status(500).send('Server error');
     }
+    console.log('Request Params:', req.params);
+console.log('Request Body:', req.body);
+console.log('User ID:', req.user);
+
   };
 
 const returnBook = async (req, res) => {

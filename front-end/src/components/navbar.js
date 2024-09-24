@@ -3,23 +3,22 @@ import { Link } from "react-router-dom";
 const NavBar = ()=>{
     return(
         <>
-            <ul>
+             <nav className="bg-gray-800 p-4">
+            <ul className="flex space-x-4">
                 <li>
-                    <Link to={"/add-book"}>AddBook</Link>
+                    <Link to="/add-book" className="text-white hover:underline">Add Book</Link>
                 </li>
                 <li>
-                    <Link to={"/books"}>BookList</Link>
+                    <Link to="/books" className="text-white hover:underline">Book List</Link>
                 </li>
                 <li>
-                    <Link to={"/edit-book/:id"}>bookEdit</Link>
+                    <Link to="/login" className="text-white hover:underline">Login</Link>
                 </li>
                 <li>
-                    <Link to={"/login"}>login</Link>
-                </li>
-                <li>
-                    <Link to={"/register"}>register</Link>
+                    <Link to="/register" className="text-white hover:underline">Register</Link>
                 </li>
             </ul>
+        </nav>
         </>
     )
 }

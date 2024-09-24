@@ -14,12 +14,14 @@ function BookListing() {
   }, []);
 
   return (
-    <div>
-      <h1>Book List</h1>
-      <ul>
+    <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+      <h1 className="text-xl font-semibold mb-4">Book List</h1>
+      <ul className="space-y-2">
         {books.map(book => (
-          <li key={book._id}>
-            <Link to={`/books/${book._id}`}>{book.title}</Link> {/* Correct Link */}
+          <li key={book._id} className="border-b border-gray-300 py-2">
+            <Link to={`/books/${book._id}`} className="text-blue-500 hover:underline">
+              {book.title}
+            </Link>
           </li>
         ))}
       </ul>

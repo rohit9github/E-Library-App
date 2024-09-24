@@ -1,14 +1,13 @@
 import axios from 'axios';
 
 export const login = async (username, password) => {
-  const res = await axios.post('http://localhost:5000/api/auth/login', { username, password });
-  localStorage.setItem('token', res.data.token);
+  const response = await axios.post('/api/auth/login', { username, password });
+  localStorage.setItem('token', response.data.token);
 };
 
-export const logout = () => {
-  localStorage.removeItem('token');
+export const register = async (username, password) => {
+  const response = await axios.post('/api/auth/register', { username, password });
+  localStorage.setItem('token', response.data.token);
 };
 
-export const getToken = () => {
-  return localStorage.getItem('token');
-};
+export const getToken = () => localStorage.getItem('token');
