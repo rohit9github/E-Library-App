@@ -1,9 +1,26 @@
 const Book = require('../models/Book');
+const multer = require('multer');
+const path = require('path');
+
+const storage = multer.diskStorage({
+  destination: './uploads/',
+  filename: (req, file, cb) => {
+    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({ storage });
 
 const createBook = async (req, res) => {
   try {
     const { title, author, genre, publicationDate } = req.body;
-    const book = new Book({ title, author, genre, publicationDate });
+    const book = new Book({
+      title,
+      author,
+      genre,
+      publicationDate,
+      imageUrl: req.file ? req.file.path : null
+    });
     await book.save();
     res.json(book);
   } catch (err) {
@@ -50,7 +67,6 @@ const deleteBook = async (req, res) => {
   }
 };
 
-// const book = await Book.findById(req.params.id);
 const borrowBook = async (req, res) => {
     try {
       const book = await Book.findById(req.params.id);
@@ -58,11 +74,11 @@ const borrowBook = async (req, res) => {
       if (book.isBorrowed) return res.status(400).json({ msg: 'Book is already borrowed' });
   
       book.isBorrowed = true;
-      book.borrowedBy = req.user; // Ensure `req.user` has the correct user ID
+      book.borrowedBy = req.user;
       await book.save();
       res.json({ msg: 'Book borrowed successfully', book });
     } catch (err) {
-      console.error(err); // Log the error for debugging
+      console.error(err);
       res.status(500).send('Server error');
     }
     console.log('Request Params:', req.params);

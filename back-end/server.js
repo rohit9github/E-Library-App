@@ -15,19 +15,19 @@ app.use(cors());
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/books', bookRoutes);
+app.use('/uploads', express.static('uploads'));
+
 
 app.put('/api/books/:id', authenticateToken, (req, res) => {
     const { title, author, genre, publicationDate } = req.body;
     const { id } = req.params;
-  
-    // Update book logic here...
+
     const bookIndex = books.findIndex(book => book.id === id);
     
     if (bookIndex === -1) {
       return res.status(404).send('Book not found');
     }
   
-    // Update book details
     books[bookIndex] = { id, title, author, genre, publicationDate };
     
     res.status(200).json({ message: 'Book updated successfully' });

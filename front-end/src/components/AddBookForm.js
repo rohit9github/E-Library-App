@@ -6,8 +6,13 @@ function AddBookForm() {
   const [author, setAuthor] = useState('');
   const [genre, setGenre] = useState('');
   const [publicationDate, setPublicationDate] = useState('');
+  const [image, setImage] = useState(null);
 
   const handleAddBook = async () => {
+    const formData = new FormData();
+    if (image) {
+        formData.append('image', image); 
+      }
     try {
       await axios.post('http://localhost:5000/api/books', { title, author, genre, publicationDate });
       alert('Book added');
@@ -41,6 +46,11 @@ function AddBookForm() {
         type="date" 
         className="border border-gray-300 p-2 mb-4 w-full rounded" 
         onChange={(e) => setPublicationDate(e.target.value)} 
+      />
+      <input 
+        type="file" 
+        accept="image/*" 
+        onChange={(e) => setImage(e.target.files[0])} 
       />
       <button 
         onClick={handleAddBook} 

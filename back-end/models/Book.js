@@ -8,6 +8,7 @@ const bookSchema = new mongoose.Schema({
   available: { type: Boolean, default: true },
   borrowedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null },
   isBorrowed: { type: Boolean, default: false }, 
+  imageUrl: { type: String } 
 });
 
 const Book = mongoose.model('Book', bookSchema);

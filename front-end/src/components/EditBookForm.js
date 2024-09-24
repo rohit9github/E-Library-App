@@ -43,7 +43,7 @@ function EditBookForm() {
       },
     });
     alert('Book updated');
-    navigate(`/books/${id}`); // Optionally navigate to the book details page
+    navigate(`/books/${id}`);
   } catch (err) {
     console.log(err);
   }

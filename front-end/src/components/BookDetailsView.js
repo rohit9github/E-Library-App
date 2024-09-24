@@ -25,15 +25,12 @@ function BookDetailsView() {
       alert('This book is already borrowed.');
       return;
     }
-    
-    // Proceed to borrow the book
     try {
       await axios.post(`/api/books/${id}/borrow`, {}, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       });
-      // Handle successful borrow (e.g., update UI, show message)
     } catch (error) {
       console.error('Error borrowing the book', error);
     }
@@ -63,7 +60,7 @@ function BookDetailsView() {
           },
         });
         alert('Book deleted successfully');
-        navigate('/books'); // Navigate back to the book listing
+        navigate('/books'); 
       } catch (error) {
         console.error('Error deleting the book', error);
       }
@@ -74,6 +71,7 @@ function BookDetailsView() {
     book && (
         <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-lg">
         <h1 className="text-2xl font-bold mb-2">{book.title}</h1>
+        <img src={`http://localhost:5000/${book.imageUrl}`} alt={book.title} />
         <p className="text-gray-700 mb-2">Author: {book.author}</p>
         <p className="text-gray-700 mb-2">Genre: {book.genre}</p>
         <p className="text-gray-700 mb-4">Published on: {book.publicationDate}</p>
